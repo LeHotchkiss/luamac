@@ -24,8 +24,30 @@ cbb {
 }
 
 targets {
+    treesitter_cpp {
+        concat "cbb.base"
+
+        compiler "gcc"
+
+        source [
+            "src/treesittercpp/*.c"
+        ]
+
+        includes [
+            "src/treesittercpp"
+        ]
+
+        class "static"
+
+        out "libtscpp.a"
+    }
+
     main {
         concat "cbb.base"
+
+        depends [
+            "treesitter_cpp"
+        ]
 
         depends_ex [
             {
@@ -44,7 +66,6 @@ targets {
 
         source [
             "src/*.cpp"
-            "src/treesittercpp/*.c"
         ]
 
         compiler "g++"
@@ -56,11 +77,13 @@ targets {
         ]
 
         lib [
+            "."
             "src/lua"
         ]
 
         link [
             "liblua.a"
+            "libtscpp.a"
         ]
 
         out "luamac"
