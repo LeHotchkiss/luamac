@@ -1,0 +1,68 @@
+version 100
+
+cbb {
+    base {
+        depends []          # project-local dependencies
+        depends_ex []       # external dependencies
+
+        class "exe"
+
+        includes [ ]
+        source [ ]
+        lib [ ]
+
+        link [ ]
+        link_shared [ ]
+
+        compiler "g++"
+
+        cc_args [ ]
+        ld_args [ ]
+
+        out "test"
+    }
+}
+
+targets {
+    main {
+        concat "cbb.base"
+
+        depends_ex [
+            {
+                path "src/lua/default.cml"
+                target "static"
+            }
+        ]
+
+        class "exe"
+
+        includes [
+            "." "src"
+            "src/lua"
+            "src/treesittercpp"
+        ]
+
+        source [
+            "src/*.cpp"
+            "src/treesittercpp/*.c"
+        ]
+
+        compiler "g++"
+
+        cc_args [
+            "-std=c++17"
+            "-fno-exceptions"
+            "-O2"
+        ]
+
+        lib [
+            "src/lua"
+        ]
+
+        link [
+            "liblua.a"
+        ]
+
+        out "luamac"
+    }
+}
