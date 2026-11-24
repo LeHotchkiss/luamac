@@ -24,7 +24,7 @@ cbb {
 }
 
 targets {
-    treesitter_cpp {
+    treesitter {
         concat "cbb.base"
 
         compiler "gcc"
@@ -46,10 +46,15 @@ targets {
         concat "cbb.base"
 
         depends [
-            "treesitter_cpp"
+            "treesitter"
         ]
 
         depends_ex [
+            {
+                path "hotchlib/hotchlib.cml"
+                target "main"
+            }
+
             {
                 path "src/lua/default.cml"
                 target "static"
@@ -62,6 +67,7 @@ targets {
             "." "src"
             "src/lua"
             "src/treesittercpp"
+	    "hotchlib/include"
         ]
 
         source [
@@ -74,14 +80,16 @@ targets {
             "-std=c++17"
             "-fno-exceptions"
             "-O2"
+	    "-Wall"
         ]
 
         lib [
-            "."
+            "." "hotchlib"
             "src/lua"
         ]
 
         link [
+            "libhotch.a"
             "liblua.a"
             "libtscpp.a"
         ]
